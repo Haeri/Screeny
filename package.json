@@ -1,0 +1,14 @@
+{
+  "name": "Screeny",
+  "version": "0.1.0",
+  "description": "Screenshot and colorpicker tools",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Haeri",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^2.0.9"
+  }
+}
