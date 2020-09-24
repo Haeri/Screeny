@@ -19,6 +19,9 @@ const COLOR_PICKER_ACC 		= 'CommandOrControl+PageUp';
 //app.commandLine.appendSwitch('high-dpi-support', 1)
 //app.commandLine.appendSwitch('force-device-scale-factor', 1)
 
+//app.commandLine.appendSwitch("disable-renderer-backgrounding");
+app.commandLine.appendSwitch("disable-background-timer-throttling");
+
 
 app.once('ready', function(){
 
@@ -28,9 +31,10 @@ app.once('ready', function(){
 		fullscreen: true,
 		show: false,
 		icon: './res/icon.png',
+		transparent: true,
 		webPreferences: {
 			//zoomFactor: 1,
-			//backgroundThrottling: false,
+			backgroundThrottling: false,
 		},
 
 	});
@@ -57,7 +61,10 @@ app.once('ready', function(){
 		});
 
 		//mainWindow.webContents.openDevTools();
-		mainWindow.webContents.setZoomFactor(0.8)
+		//mainWindow.webContents.setZoomFactor(1);				// 100% scale
+		mainWindow.webContents.setZoomFactor(0.8);				// 125% scale
+		//mainWindow.webContents.setZoomFactor(0.666666);		// 150% scale
+		//mainWindow.webContents.setZoomFactor(0.4);			// 175% scale
   	});
 
 	mainWindow.once('closed', function() {
@@ -69,7 +76,8 @@ app.once('ready', function(){
 	tray = new Tray('./res/icon.png');
 	const contextMenu = Menu.buildFromTemplate([
       {
-        label: 'Full Screenshot',
+		label: 'Full Screenshot',
+		
         //acceleratior: 'CommandOrControl+L',
         click: function(){mainWindow.webContents.executeJavaScript('ss.partCapture();');}
       },

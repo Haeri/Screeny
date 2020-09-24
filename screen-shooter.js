@@ -13,6 +13,8 @@ const path 	= require('path');
 const currentWindow = remote.getCurrentWindow();
 var initialized = false;
 
+//let RectangleElement = require("./RectangleElement.js");
+
 // Theme
 const OVERLAY_COLOR		= 'rgba(0, 0, 0, 0.5)';
 const HANDLE_RECT_COLOR	= 'rgba(0, 125, 216, 1)';
@@ -69,18 +71,51 @@ function partCapture(){
 				imgBuff = source.thumbnail;
 				img = new Image();
 				img.onload = function () {
-					ctx.drawImage(img, 0, 0, screenSize.width, screenSize.height);
-					drawHandle(ctx, {x: 0, y: 0}, {x: 0, y: 0});
+					//ctx.drawImage(img, 0, 0, screenSize.width, screenSize.height);
+					//console.log("post-draw", new Date().getTime() / 1000);
+					//drawHandle(ctx, {x: 0, y: 0}, {x: 0, y: 0});
+					ctx.fillStyle = "rgb(255, 0, 0)";
+					ctx.fillRect(0, 0, screenSize.width, screenSize.height);
+
+
+//					currentWindow.once('ready-to-show', () => {
+					console.log("pre-show", new Date().getTime() / 1000);
+					//currentWindow.setFullScreen(true);
 					currentWindow.show();
+					//currentWindow.setOpacity(1);
+
+					
+					console.log("post-show", new Date().getTime() / 1000);
+//					});
+
+					
 				}
 				img.src = imgBuff.toDataURL();
+				console.log("setting url", new Date().getTime() / 1000);
 			}
 		});
 	});
 }
 
 function hide(){
+	// Reset canvas
 	currentWindow.hide();
+	canvas.width = canvas.width;
+
+	ctx.fillStyle = "rgb(0, 255, 0)";
+	ctx.fillRect(0, 0, screenSize.width, screenSize.height);
+	//currentWindow.setOpacity(0);
+}
+
+function normexpRect(){
+	var minX = expRect.minX; 
+	var minY = expRect.minY; 
+	var maxX = expRect.maxX; 
+	var maxY = expRect.maxY; 
+	expRect.minX = Math.min(minX, maxX);
+	expRect.minY = Math.min(minY, maxY);
+	expRect.maxX = Math.max(minX, maxX);
+	expRect.maxY = Math.max(minY, maxY);
 }
 
 function transformHandle(e){
@@ -107,6 +142,7 @@ function initialize(){
 	window.addEventListener("mouseup", function(e){
 		expRect.maxX = e.clientX;
 		expRect.maxY = e.clientY;
+		normexpRect();
 
 		console.log(expRect);
 
@@ -196,6 +232,10 @@ function drawHandle(ctx, minP, maxP){
 	ctx.rect(minP.x - (handle_height/2.0), minP.y + (((maxP.y-minP.y)/2.0) - (handle_width/2.0)), handle_height, handle_width);
 	ctx.rect(maxP.x - (handle_height/2.0), minP.y + (((maxP.y-minP.y)/2.0) - (handle_width/2.0)), handle_height, handle_width);
 	ctx.fill();
+
+
+	//let rect = new RectangleElement({x: 20, y: 20}, 20, 100, "rgb(255, 0, 0)");
+	//rect.draw(ctx);
 }
 
 module.exports = {
