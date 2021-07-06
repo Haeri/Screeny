@@ -1,10 +1,10 @@
 // Imports
 const electron 			= require('electron');
 const desktopCapturer 	= electron.desktopCapturer;
-const electronScreen 	= electron.screen;
 const shell 			= electron.shell;
 const remote 			= electron.remote;
 const app				= electron.app;
+const electronScreen 	= remote.screen;
 
 const fs 	= require('fs');
 const os 	= require('os');

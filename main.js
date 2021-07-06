@@ -4,6 +4,7 @@ const Menu 				= electron.Menu;
 const Tray 				= electron.Tray;
 const app				= electron.app;
 const globalShortcut 	= electron.globalShortcut;
+const ipcMain			= electron.ipcMain;
 
 const fs 		= require('fs');
 const url 		= require('url');
@@ -27,14 +28,17 @@ app.once('ready', function(){
 
 	// Create new Window
 	mainWindow = new BrowserWindow({
-		frame: false,
-		fullscreen: true,
-		show: false,
+		//frame: false,
+		//fullscreen: true,
+		//show: false,
+		//transparent: true,
 		icon: './res/icon.png',
-		transparent: true,
 		webPreferences: {
 			//zoomFactor: 1,
-			backgroundThrottling: false,
+			backgroundThrottling: false,			
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true,
 		},
 
 	});
